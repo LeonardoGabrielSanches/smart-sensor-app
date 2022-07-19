@@ -5,16 +5,15 @@ import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { HistoryTab } from "../HistoryTab";
 import { NotificationTab } from "../NotificationTab";
 
+type DeviceTabProps = {
+    id: string;
+}
+
 const initialLayout = {
     width: Dimensions.get('window').width
 };
 
-const renderScene = SceneMap({
-    history: HistoryTab,
-    notification: NotificationTab,
-});
-
-export function DeviceTabs() {
+export function DeviceTabs({ id }: DeviceTabProps) {
     const [index, setIndex] = useState(0);
     const [routes] = useState(
         [
@@ -28,6 +27,11 @@ export function DeviceTabs() {
             }
         ]
     );
+
+    const renderScene = SceneMap({
+        history: () => <HistoryTab id={id} />,
+        notification: () => <NotificationTab id={id} />,
+    });
 
     const tabWidth = useMemo(() => {
         return `${100 / routes.length}%`;

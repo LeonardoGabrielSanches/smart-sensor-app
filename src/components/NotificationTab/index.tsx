@@ -1,7 +1,11 @@
 import { Text } from "native-base";
 
-export function NotificationTab() {
+type NotificationTabProps = {
+    id: string;
+}
+
+export function NotificationTab({ id }: NotificationTabProps) {
     return (
-        <Text>Aba notificações</Text>
+        <Text>Aba notificações {id}</Text>
     );
 }

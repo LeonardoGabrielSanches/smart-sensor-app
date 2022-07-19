@@ -1,7 +1,12 @@
-import { Box, Center, Column, Divider, Image, Row, Text } from "native-base";
+import { Box, Center, Column, Divider, Image, Text } from "native-base";
 import { useEffect, useState } from "react";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import { DeviceTabs } from "../../components/DeviceTabs";
+import { HistoryProps } from "../../components/HistoryTab";
 import { TextWithIcon } from "../../components/TextWithIcon";
+
 import { firestoreDevices, firestoreHistoryByDevice } from "../../lib/firebase/firebaseConfig";
 
 type DeviceProps = {
@@ -14,18 +19,10 @@ type DeviceStateProps = {
     imageUrl: string;
 }
 
-type HistoryProps = {
-    id: string;
-    humidity: number;
-    room_temperature: number;
-    temperature: number;
-    timestamp: number;
-    vibration: number;
-}
+
 
 export function Device({ id }: DeviceProps) {
     const [device, setDevice] = useState<DeviceStateProps>({} as DeviceStateProps);
-    const [history, setHistory] = useState<HistoryProps[]>([]);
     const [lastHistory, setLastHistory] = useState<HistoryProps>({} as HistoryProps);
 
     function loadDevice() {
@@ -40,27 +37,8 @@ export function Device({ id }: DeviceProps) {
         });
     }
 
-    // function loadDeviceHistory() {
-    //     firestoreHistoryByDevice(id).onSnapshot(snapshot => {
-    //         const historyData = snapshot.docs.map(x => {
-    //             const data = x.data() as Omit<HistoryProps, 'id'>;
-
-    //             return {
-    //                 id: x.id,
-    //                 humidity: data.humidity,
-    //                 room_temperature: data.room_temperature,
-    //                 temperature: data.temperature,
-    //                 timestamp: data.timestamp,
-    //                 vibration: data.vibration
-    //             } as HistoryProps
-    //         });
-
-    //         setHistory(historyData.sort((a, b) => a.timestamp > b.timestamp ? 1 : -1));
-    //     });
-    // }
-
     function loadDeviceLastHistory() {
-        firestoreHistoryByDevice(id).orderBy('timestamp', 'asc').limit(1).onSnapshot(snapshot => {
+        firestoreHistoryByDevice(id).orderBy('timestamp', 'desc').limit(1).onSnapshot(snapshot => {
             const doc = snapshot.docs[0]
             const data = doc.data() as Omit<HistoryProps, 'id'>;
 
@@ -97,32 +75,28 @@ export function Device({ id }: DeviceProps) {
                     <Column>
                         <TextWithIcon
                             fontSize="lg"
-                            text={lastHistory.humidity.toFixed(2)}
-                            icon="chevron-up"
-                            iconSize={36}
+                            text={lastHistory?.humidity?.toFixed(2)}
+                            icon={<MaterialCommunityIcons name="water-outline" size={24} />}
                         />
 
                         <TextWithIcon
                             fontSize="lg"
-                            text={lastHistory.room_temperature.toFixed(2)}
-                            icon="chevron-up"
-                            iconSize={36}
+                            text={lastHistory?.room_temperature?.toFixed(2)}
+                            icon={<MaterialIcons name="meeting-room" size={24} />}
                         />
                     </Column>
 
                     <Column>
                         <TextWithIcon
                             fontSize="lg"
-                            text={lastHistory.temperature.toFixed(2)}
-                            icon="chevron-up"
-                            iconSize={36}
+                            text={lastHistory?.temperature?.toFixed(2)}
+                            icon={<MaterialCommunityIcons name="engine-outline" size={24} />}
                         />
 
                         <TextWithIcon
                             fontSize="lg"
-                            text={lastHistory.vibration.toFixed(2)}
-                            icon="chevron-up"
-                            iconSize={36}
+                            text={lastHistory?.vibration?.toFixed(2)}
+                            icon={<MaterialCommunityIcons name="vibrate" size={24} />}
                         />
 
                     </Column>
@@ -131,7 +105,7 @@ export function Device({ id }: DeviceProps) {
 
             <Divider />
 
-            <DeviceTabs />
+            <DeviceTabs id={device.id} />
         </Center>
     );
 }

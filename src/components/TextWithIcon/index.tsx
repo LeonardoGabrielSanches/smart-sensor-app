@@ -1,17 +1,17 @@
 import { Box, Text, ITextProps } from "native-base";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ReactElement } from "react";
 
 type TextWithIconProps = {
     text: string;
-    icon: string;
-    iconSize: number;
+    icon: ReactElement;
+    width?: string;
 } & ITextProps;
 
-export function TextWithIcon({ icon, iconSize, text, ...rest }: TextWithIconProps) {
+export function TextWithIcon({ icon, text, width = "full", ...rest }: TextWithIconProps) {
     return (
-        <Box alignItems="center" flexDir="row" w="full">
-            <MaterialCommunityIcons name={icon} size={iconSize} />
-            <Text {...rest} >{text}</Text>
+        <Box alignItems="center" flexDir="row" w={width}>
+            {icon}
+            <Text {...rest} ml="1" >{text}</Text>
         </Box>
     );
 }
