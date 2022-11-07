@@ -46,7 +46,7 @@ export function Device({ id }: DeviceProps) {
                 id: doc.id,
                 humidity: data.humidity,
                 room_temperature: data.room_temperature,
-                temperature: data.temperature,
+                voltageTemperature: data.voltageTemperature * 26,
                 timestamp: data.timestamp,
                 vibration: data.vibration
             });
@@ -89,7 +89,7 @@ export function Device({ id }: DeviceProps) {
                     <Column>
                         <TextWithIcon
                             fontSize="lg"
-                            text={lastHistory?.temperature?.toFixed(2)}
+                            text={lastHistory?.voltageTemperature?.toFixed(2)}
                             icon={<MaterialCommunityIcons name="engine-outline" size={24} />}
                         />
 

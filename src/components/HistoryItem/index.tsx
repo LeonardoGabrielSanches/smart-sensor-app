@@ -39,7 +39,7 @@ export function HistoryItem({ data, isActualHistory }: HistoryItemProps) {
 
                 <TextWithIcon
                     fontSize="sm"
-                    text={data?.temperature?.toFixed(2)}
+                    text={data?.voltageTemperature?.toFixed(2)}
                     icon={<MaterialCommunityIcons name="engine-outline" size={16} />}
                     width="20%"
                 />

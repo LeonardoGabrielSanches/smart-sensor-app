@@ -12,7 +12,7 @@ export type HistoryProps = {
     id: string;
     humidity: number;
     room_temperature: number;
-    temperature: number;
+    voltageTemperature: number;
     timestamp: number;
     vibration: number;
 }
@@ -29,7 +29,7 @@ export function HistoryTab({ id }: HistoryTabProps) {
                     id: doc.id,
                     humidity: data.humidity,
                     room_temperature: data.room_temperature,
-                    temperature: data.temperature,
+                    voltageTemperature: data.voltageTemperature * 26,
                     timestamp: data.timestamp,
                     vibration: data.vibration
                 } as HistoryProps;
@@ -41,6 +41,8 @@ export function HistoryTab({ id }: HistoryTabProps) {
 
     useEffect(() => {
         loadHistory();
+
+        return ()=> loadHistory();
     }, [id]);
 
     return (

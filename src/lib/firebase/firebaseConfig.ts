@@ -19,3 +19,5 @@ const firestore = firebase.firestore();
 export const firestoreDevices = firestore.collection('equipments');
 
 export const firestoreHistoryByDevice = (id: string) => firestore.collection(`equipments/${id}/history`);
+
+export const firestoreNotificationHistory = () => firestore.collection('notifications')
